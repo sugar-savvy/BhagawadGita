@@ -168,7 +168,7 @@
 
         <div class="flex flex-col items-center space-y-4 py-2">
           <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(0)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative lesson-btn" data-lesson="0">
+            <button onclick="startLesson(0)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative">
               <span class="text-2xl">🏹</span>
               <span class="text-[10px] font-extrabold uppercase mt-0.5">2.47</span>
               <span class="absolute -top-1 -right-1 bg-yellow-400 text-stone-900 text-[10px] font-black rounded-full px-1.5 py-0.5 border border-amber-600">START</span>
@@ -278,30 +278,28 @@
   <script>
     const STORAGE_KEY = 'gitalingo-state-v1';
 
+    /* ==========================================================================
+       PRODUCTION WEB AUDIO ENGINE (Copilot Drop-in Replacement)
+       ========================================================================== */
     class RobustSoundEngine {
       constructor() {
         this.ctx = null;
-        this.audioUnlocked = false;
+        this.isUnlocked = false;
       }
 
+      // Ensures the audio context is unlocked by a direct user gesture
       unlock() {
-        if (this.audioUnlocked) return;
-        
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (!this.ctx) {
-          this.ctx = new AudioContextClass();
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
         }
-        
-        if (this.ctx && this.ctx.state === 'suspended') {
-          this.ctx.resume().then(() => {
-            this.audioUnlocked = true;
-            console.log('🎵 Audio context unlocked');
-          }).catch(err => console.log('Audio unlock error:', err));
-        } else {
-          this.audioUnlocked = true;
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
         }
+        this.isUnlocked = true;
       }
 
+      // Tanpura drone chord (Harmonic Sa - Pa - Sa)
       playTanpuraChord(baseFreq = 220, duration = 1.6) {
         this.unlock();
         if (!this.ctx) return;
@@ -311,34 +309,44 @@
         freqs.forEach((freq, idx) => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
+
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(freq, now);
+
           gain.gain.setValueAtTime(0.001, now);
-          gain.gain.linearRampToValueAtTime(0.25 / (idx + 1), now + 0.06);
+          gain.gain.linearRampToValueAtTime(0.28 / (idx + 1), now + 0.05);
           gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + idx * 0.15);
+
           osc.connect(gain);
           gain.connect(this.ctx.destination);
+
           osc.start(now + idx * 0.04);
           osc.stop(now + duration + 0.3);
         });
       }
 
+      // Resonant pluck on Sanskrit tile taps
       playCardPluck(freq = 440) {
         this.unlock();
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
+
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, now);
+
         gain.gain.setValueAtTime(0.35, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
         osc.connect(gain);
         gain.connect(this.ctx.destination);
+
         osc.start(now);
         osc.stop(now + 0.3);
       }
 
+      // Temple bells / Victory fanfare
       playCorrectChimes() {
         this.unlock();
         if (!this.ctx) return;
@@ -348,37 +356,54 @@
         notes.forEach((freq, i) => {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
+
           osc.type = 'sine';
           osc.frequency.setValueAtTime(freq, now + i * 0.08);
+
           gain.gain.setValueAtTime(0.001, now + i * 0.08);
           gain.gain.linearRampToValueAtTime(0.3, now + i * 0.08 + 0.03);
           gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9 + i * 0.1);
+
           osc.connect(gain);
           gain.connect(this.ctx.destination);
+
           osc.start(now + i * 0.08);
           osc.stop(now + 1.2);
         });
       }
 
+      // Soft reflective tone for learning opportunities
       playReflectiveTone() {
         this.unlock();
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
+
         osc.type = 'sine';
         osc.frequency.setValueAtTime(320, now);
         osc.frequency.linearRampToValueAtTime(240, now + 0.28);
+
         gain.gain.setValueAtTime(0.3, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
         osc.connect(gain);
         gain.connect(this.ctx.destination);
+
         osc.start(now);
         osc.stop(now + 0.42);
       }
     }
 
+    // Global instance
     const sound = new RobustSoundEngine();
+
+    // Force unlock on the very first screen interaction anywhere
+    ['click', 'touchstart', 'touchend', 'mousedown'].forEach(eventType => {
+      window.addEventListener(eventType, () => {
+        sound.unlock();
+      }, { once: true, passive: true });
+    });
 
     const lessonsData = [
       {
@@ -624,18 +649,6 @@
       URL.revokeObjectURL(link.href);
     });
 
-    // Unlock audio on first user interaction (required by browsers)
-    window.addEventListener('touchstart', () => sound.unlock(), { once: true });
-    window.addEventListener('mousedown', () => sound.unlock(), { once: true });
-
-    // Play welcome sound after a small delay to allow audio context to be ready
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        sound.unlock();
-        sound.playTanpuraChord(220, 1.2);
-      }, 300);
-    });
-
     function startLesson(idx) {
       sound.playTanpuraChord(220);
       currentLessonIdx = idx;
@@ -690,7 +703,7 @@
 
           <div id="word-bank" class="flex flex-wrap gap-2.5 justify-center py-2">
             ${step.shuffledWords.map((word, i) => `
-              <button id="tile-${i}" onclick="selectAssembleTile('${word}', ${i})" class="btn-3d px-3.5 py-2.5 bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-950 font-sanskrit font-bold text-sm text-center">
+              <button id="tile-${i}" onclick="selectAssembleTile('${word}', ${i})" class="btn-3d px-3.5 py-2.5 bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-950 font-sanskrit font-bold text-sm rounded-2xl transition-colors">
                 ${word}
               </button>
             `).join('')}
@@ -727,14 +740,14 @@
         <div class="grid grid-cols-2 gap-3 sm:gap-4">
           <div class="space-y-2.5">
             ${sanskritList.map((item, i) => `
-              <button id="sanskrit-${i}" onclick="selectLeftMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-sm hover:border-amber-400 transition-all">
+              <button id="sanskrit-${i}" onclick="selectLeftMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-sm hover:border-amber-400">
                 ${item}
               </button>
             `).join('')}
           </div>
           <div class="space-y-2.5">
             ${englishList.map((item, i) => `
-              <button id="english-${i}" onclick="selectRightMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-stone-700 font-semibold text-center text-sm hover:border-amber-400 transition-all">
+              <button id="english-${i}" onclick="selectRightMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-stone-700 font-semibold text-center text-sm hover:border-amber-400">
                 ${item}
               </button>
             `).join('')}
@@ -785,7 +798,7 @@
 
           <div class="flex flex-wrap gap-3 justify-center">
             ${step.options.map((opt, i) => `
-              <button id="opt-${i}" onclick="selectBlankOption('${opt}', ${i})" class="btn-3d px-5 py-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-sm hover:border-amber-400 transition-all">
+              <button id="opt-${i}" onclick="selectBlankOption('${opt}', ${i})" class="btn-3d px-5 py-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-sm hover:border-amber-400">
                 ${opt}
               </button>
             `).join('')}
@@ -814,7 +827,7 @@
 
           <div class="space-y-2.5">
             ${step.options.map((opt, i) => `
-              <button id="scenario-opt-${i}" onclick="selectScenarioOption(${i})" class="btn-3d w-full p-3.5 rounded-2xl bg-white border-2 border-amber-200 hover:border-amber-400 text-stone-800 text-sm font-medium flex items-center gap-3 transition-all text-left">
+              <button id="scenario-opt-${i}" onclick="selectScenarioOption(${i})" class="btn-3d w-full p-3.5 rounded-2xl bg-white border-2 border-amber-200 hover:border-amber-400 text-stone-800 text-left text-sm font-semibold flex items-center gap-3">
                 <span class="w-5 h-5 rounded-full border border-amber-400 flex items-center justify-center text-[10px] shrink-0 font-bold">${String.fromCharCode(65 + i)}</span>
                 <span>${opt.text}</span>
               </button>
