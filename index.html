@@ -3,141 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitaLingo: Karma Yoga at Work</title>
+  <title>GitaLingo: Karma Yoga Sadhana</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Rozha+One&family=Yatra+One&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --bg-1: #fffaf2;
-      --bg-2: #fef3c7;
-      --panel: rgba(255,255,255,0.72);
-      --panel-strong: rgba(255,255,255,0.9);
-      --amber-100: #fef3c7;
-      --amber-200: #fcd34d;
-      --amber-300: #fbbf24;
-      --amber-500: #f59e0b;
-      --amber-600: #d97706;
-      --amber-700: #b45309;
-      --rose-100: #ffe4e6;
-      --rose-500: #f43f5e;
-      --stone-900: #1c1917;
-      --stone-700: #44403c;
-      --emerald-500: #10b981;
-      --emerald-600: #059669;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(251, 191, 36, 0.18), transparent 28%),
-        linear-gradient(180deg, var(--bg-1) 0%, #fffaf2 40%, #fff 100%);
-      color: var(--stone-900);
       user-select: none;
       -webkit-user-select: none;
     }
-
     .font-sanskrit {
       font-family: 'Rozha One', 'Yatra One', serif;
     }
-
-    .glass {
-      background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
     .btn-3d {
       transition: all 0.08s ease-in-out;
-      box-shadow: 0 4px 0 rgba(0,0,0,0.16);
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
     }
-
     .btn-3d:active:not(:disabled) {
       transform: translateY(3px);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.12);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     }
-
     .tile-pop {
-      animation: pop 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: pop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
     @keyframes pop {
-      0% { transform: scale(0.92); opacity: 0.7; }
+      0% { transform: scale(0.92); opacity: 0.6; }
       100% { transform: scale(1); opacity: 1; }
     }
-
-    .lesson-node {
-      position: relative;
-      isolation: isolate;
+    .pulse-glow {
+      animation: pulse-border 1.5s infinite;
     }
-
-    .lesson-node::before {
-      content: "";
-      position: absolute;
-      inset: -8px;
-      border-radius: 9999px;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.18), transparent 70%);
-      z-index: -1;
-    }
-
-    .lesson-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,247,237,0.95));
-      border: 2px solid rgba(251, 191, 36, 0.25);
-      box-shadow: 0 8px 24px rgba(180, 83, 9, 0.07);
-    }
-
-    .completed-glow {
-      box-shadow: 0 0 0 2px rgba(16,185,129,0.18), 0 10px 24px rgba(16,185,129,0.08);
+    @keyframes pulse-border {
+      0%, 100% { border-color: rgba(217, 119, 6, 0.4); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.3); }
+      50% { border-color: rgba(217, 119, 6, 1); box-shadow: 0 0 12px 2px rgba(217, 119, 6, 0.25); }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between text-stone-800">
+<body class="bg-amber-50 text-stone-800 min-h-screen flex flex-col justify-between">
 
-  <header class="glass sticky top-0 z-30 border-b border-amber-200/80 px-4 py-2.5">
+  <!-- TOP APP BAR -->
+  <header class="bg-amber-100/95 backdrop-blur border-b border-amber-200 sticky top-0 z-30 px-4 py-2.5">
     <div class="max-w-2xl mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 min-w-0">
+      <!-- App Brand -->
+      <div class="flex items-center gap-2 cursor-pointer" onclick="returnHome()">
         <span class="text-2xl">🦚</span>
-        <div class="min-w-0">
-          <h1 class="text-base sm:text-lg font-black tracking-tight text-amber-950 flex items-center gap-1.5 flex-wrap">
+        <div>
+          <h1 class="text-lg font-black tracking-tight text-amber-950 flex items-center gap-1.5">
             GitaLingo
-            <span class="text-[9px] uppercase font-bold tracking-[0.14em] px-2 py-0.5 rounded-full bg-amber-600 text-white">Karma Yoga</span>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-600 text-white">Karma Yoga</span>
           </h1>
         </div>
       </div>
 
+      <!-- Live Gamification Trackers -->
       <div class="flex items-center gap-2 sm:gap-3">
-        <div class="flex items-center gap-1 font-bold text-amber-700 bg-amber-200/75 px-2.5 py-1 rounded-xl text-[10px] sm:text-xs" title="Daily Sadhana Streak">
+        <!-- Streak -->
+        <div class="flex items-center gap-1 font-bold text-amber-700 bg-amber-200/70 px-2.5 py-1 rounded-xl text-xs sm:text-sm" title="Daily Sadhana Streak">
           <span>🔥</span>
           <span id="streak-counter">3</span>
         </div>
 
-        <div class="flex items-center gap-1 font-bold text-amber-900 bg-amber-300/75 px-2.5 py-1 rounded-xl text-[10px] sm:text-xs" title="Prana XP">
+        <!-- Prana XP -->
+        <div class="flex items-center gap-1 font-bold text-amber-900 bg-amber-300/70 px-2.5 py-1 rounded-xl text-xs sm:text-sm" title="Prana XP">
           <span>⚡</span>
           <span id="xp-counter">120</span>
         </div>
 
-        <div class="flex items-center gap-1 font-bold text-rose-600 bg-rose-100 px-2.5 py-1 rounded-xl text-[10px] sm:text-xs" title="Equanimity (Hearts)">
+        <!-- Hearts -->
+        <div class="flex items-center gap-1 font-bold text-rose-600 bg-rose-100 px-2.5 py-1 rounded-xl text-xs sm:text-sm" title="Equanimity (Hearts)">
           <span>❤️</span>
           <span id="hearts-counter">5</span>
         </div>
 
-        <button id="audio-test-btn" class="px-2.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-[10px] sm:text-xs font-bold flex items-center gap-1 shadow-sm" title="Test Sound">
-          🔔 <span class="hidden sm:inline">Sound</span>
-        </button>
-
-        <button id="download-btn" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] sm:text-xs font-bold flex items-center gap-1 shadow-sm" title="Download">
-          💾 <span class="hidden sm:inline">Save</span>
+        <!-- Audio Test Button -->
+        <button id="audio-test-btn" class="px-2.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold flex items-center gap-1 shadow-sm" title="Tap to Test Sound">
+          🔔 <span class="hidden sm:inline">Chime</span>
         </button>
       </div>
     </div>
 
+    <!-- Lesson Progress Bar -->
     <div id="progress-container" class="max-w-2xl mx-auto mt-2 hidden">
       <div class="w-full bg-amber-200 h-2.5 rounded-full overflow-hidden">
         <div id="lesson-progress-bar" class="bg-amber-600 h-full transition-all duration-300 w-0"></div>
@@ -145,89 +93,130 @@
     </div>
   </header>
 
-  <main class="max-w-2xl mx-auto w-full flex-grow px-4 py-5 sm:py-6 flex flex-col justify-center">
+  <!-- MAIN APP CONTAINER -->
+  <main class="max-w-2xl mx-auto w-full flex-grow p-4 flex flex-col justify-center">
 
-    <div id="screen-home" class="space-y-5">
-      <div class="lesson-card rounded-[28px] p-4 sm:p-5 flex items-center gap-4">
-        <div class="text-5xl shadow-sm">🪷</div>
+    <!-- SCREEN 1: CHAPTER PATH (ROADMAP) -->
+    <div id="screen-home" class="space-y-6">
+      
+      <!-- Unit Banner -->
+      <div class="bg-white border-2 border-amber-200 rounded-3xl p-5 shadow-sm flex items-center justify-between gap-4">
         <div>
-          <p class="text-[10px] uppercase font-black tracking-[0.18em] text-amber-700">Today's Discipline</p>
-          <h2 class="text-xl sm:text-2xl font-black text-amber-950 mt-1">Unit 1: The Corporate Kurukshetra</h2>
-          <p class="text-xs sm:text-sm text-stone-600 mt-1">Conquer outcome anxiety, navigate handovers, and act without bondage.</p>
+          <span class="text-[11px] uppercase tracking-wider font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">Foundation Module</span>
+          <h2 class="text-xl font-black text-amber-950 mt-1">Unit 1: The Corporate Kurukshetra</h2>
+          <p class="text-xs sm:text-sm text-stone-600 mt-1">Master authentic meter chanting, dissolve outcome anxiety, and make work your altar.</p>
+        </div>
+        <div class="text-5xl shrink-0">🪷</div>
+      </div>
+
+      <!-- Stepping Stone Lessons -->
+      <div class="flex flex-col items-center space-y-4 py-3">
+        
+        <!-- Lesson 0: BG 2.47 -->
+        <div class="flex flex-col items-center">
+          <button onclick="startLesson(0)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative">
+            <span class="text-2xl">🏹</span>
+            <span class="text-[10px] font-extrabold uppercase mt-0.5">2.47</span>
+            <span class="absolute -top-1 -right-1 bg-yellow-400 text-stone-900 text-[10px] font-black rounded-full px-1.5 py-0.5 border border-amber-600">START</span>
+          </button>
+          <span class="text-xs font-bold text-stone-700 mt-2">Action Alone, Never the Fruit</span>
+        </div>
+
+        <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
+
+        <!-- Lesson 1: BG 2.48 -->
+        <div class="flex flex-col items-center">
+          <button onclick="startLesson(1)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center">
+            <span class="text-2xl">⚖️</span>
+            <span class="text-[10px] font-extrabold uppercase mt-0.5">2.48</span>
+          </button>
+          <span class="text-xs font-bold text-stone-700 mt-2">Samatvam: Equanimity Under Fire</span>
+        </div>
+
+        <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
+
+        <!-- Lesson 2: BG 3.21 -->
+        <div class="flex flex-col items-center">
+          <button onclick="startLesson(2)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center">
+            <span class="text-2xl">🌟</span>
+            <span class="text-[10px] font-extrabold uppercase mt-0.5">3.21</span>
+          </button>
+          <span class="text-xs font-bold text-stone-700 mt-2">Leadership Without Supervision</span>
+        </div>
+
+        <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
+
+        <!-- Lesson 3: BG 3.34 & 3.35 -->
+        <div class="flex flex-col items-center">
+          <button onclick="startLesson(3)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center">
+            <span class="text-2xl">🎯</span>
+            <span class="text-[10px] font-extrabold uppercase mt-0.5">3.35</span>
+          </button>
+          <span class="text-xs font-bold text-stone-700 mt-2">Svadharma vs. Likes & Dislikes</span>
+        </div>
+
+      </div>
+
+      <!-- Quick Shloka Reference Drawer Toggle -->
+      <div class="bg-amber-100/70 border border-amber-200 rounded-2xl p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">📖</span>
+            <h3 class="text-xs font-bold text-amber-950 uppercase tracking-wider">Shloka Sanctuary & Study Vault</h3>
+          </div>
+          <button onclick="toggleSanctuary()" id="sanctuary-toggle-btn" class="text-xs font-bold text-amber-800 bg-amber-200/80 px-2.5 py-1 rounded-lg hover:bg-amber-300">
+            View All Verses & Audio
+          </button>
+        </div>
+
+        <!-- Expandable Shloka Study Vault -->
+        <div id="sanctuary-drawer" class="hidden mt-4 space-y-4 pt-3 border-t border-amber-200/60">
+          <!-- Dynamically populated -->
         </div>
       </div>
 
-      <div class="lesson-card rounded-[28px] p-3 sm:p-4">
-        <div class="flex items-center justify-between mb-3">
-          <div>
-            <p class="text-[10px] uppercase font-black tracking-[0.18em] text-stone-500">Roadmap</p>
-            <h3 class="text-base font-black text-amber-950">Karma Yoga Practice Path</h3>
-          </div>
-          <div class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-full" id="home-completion-label">0/4 complete</div>
-        </div>
-
-        <div class="flex flex-col items-center space-y-4 py-2">
-          <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(0)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative">
-              <span class="text-2xl">🏹</span>
-              <span class="text-[10px] font-extrabold uppercase mt-0.5">2.47</span>
-              <span class="absolute -top-1 -right-1 bg-yellow-400 text-stone-900 text-[10px] font-black rounded-full px-1.5 py-0.5 border border-amber-600">START</span>
-            </button>
-            <span class="text-[11px] font-bold text-stone-700 mt-2 text-center max-w-[150px]">Freedom From Outcome Anxiety</span>
-          </div>
-
-          <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
-
-          <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(1)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative lesson-btn" data-lesson="1">
-              <span class="text-2xl">⚖️</span>
-              <span class="text-[10px] font-extrabold uppercase mt-0.5">2.48</span>
-            </button>
-            <span class="text-[11px] font-bold text-stone-700 mt-2 text-center max-w-[150px]">Samatvam: Equanimity Under Fire</span>
-          </div>
-
-          <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
-
-          <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(2)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative lesson-btn" data-lesson="2">
-              <span class="text-2xl">🌟</span>
-              <span class="text-[10px] font-extrabold uppercase mt-0.5">3.21</span>
-            </button>
-            <span class="text-[11px] font-bold text-stone-700 mt-2 text-center max-w-[150px]">Leadership Without Supervision</span>
-          </div>
-
-          <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
-
-          <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(3)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative lesson-btn" data-lesson="3">
-              <span class="text-2xl">🎯</span>
-              <span class="text-[10px] font-extrabold uppercase mt-0.5">3.35</span>
-            </button>
-            <span class="text-[11px] font-bold text-stone-700 mt-2 text-center max-w-[150px]">Svadharma vs. Likes & Dislikes</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-amber-100/80 border border-amber-200 rounded-2xl p-4 text-xs space-y-1.5 text-stone-700">
-        <p class="font-bold text-amber-950">💡 Classical Vedantic Pedagogy:</p>
-        <p class="leading-relaxed">
-          Rooted in <strong>Shravana</strong> (sacred sound), <strong>Pada-Cheda</strong> (word disassembly), and <strong>Manana</strong> (workplace application) from the traditional Shankara Bhashya.
-        </p>
-      </div>
     </div>
 
+    <!-- SCREEN 2: ACTIVE LESSON SCREEN -->
     <div id="screen-exercise" class="hidden flex-col justify-between flex-grow">
-      <div class="flex items-start gap-3 my-2">
-        <div class="text-4xl">🦚</div>
-        <div class="glass border-2 border-amber-200 rounded-2xl rounded-tl-none p-3 shadow-sm flex-1 text-xs sm:text-sm font-semibold text-amber-950">
+      
+      <!-- Verse Chanting & Exposition Card -->
+      <div class="bg-white border-2 border-amber-200 rounded-2xl p-4 shadow-sm space-y-3 mb-3">
+        <div class="flex items-center justify-between">
+          <span id="lesson-shloka-badge" class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 bg-amber-100 text-amber-800 rounded-md">Chapter 2, Verse 47</span>
+          <!-- Play Traditional Chant Button -->
+          <button id="chant-play-btn" onclick="playCurrentShlokaChant()" class="btn-3d px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-sm">
+            <span id="chant-icon">🔊</span>
+            <span id="chant-label">Listen to Traditional Chant</span>
+          </button>
+        </div>
+
+        <!-- Sanskrit Original Text -->
+        <div id="lesson-shloka-sanskrit" class="font-sanskrit text-amber-950 text-base sm:text-lg leading-relaxed text-center py-1">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- English Translation & Vedantic Essence -->
+        <div class="bg-amber-50/70 border border-amber-200/70 rounded-xl p-3 text-xs space-y-1.5">
+          <p id="lesson-shloka-english" class="text-stone-800 font-semibold leading-relaxed"></p>
+          <p id="lesson-shloka-essence" class="text-stone-600 text-[11px] leading-relaxed italic border-t border-amber-200/40 pt-1.5"></p>
+        </div>
+      </div>
+
+      <!-- Mascot Prompt -->
+      <div class="flex items-start gap-2.5 my-1">
+        <div class="text-3xl">🦚</div>
+        <div class="bg-white border-2 border-amber-200 rounded-2xl rounded-tl-none p-2.5 shadow-sm flex-1 text-xs font-semibold text-amber-950">
           <p id="mascot-prompt">Tap the tiles to assemble the sacred verse.</p>
         </div>
       </div>
 
-      <div id="question-area" class="my-auto py-4"></div>
+      <!-- Question Dynamic Canvas -->
+      <div id="question-area" class="my-auto py-3"></div>
 
-      <div class="pt-4 border-t border-amber-200/80">
-        <div id="feedback-box" class="hidden rounded-2xl p-4 mb-3 items-center justify-between">
+      <!-- Feedback & Action Footer -->
+      <div class="pt-3 border-t border-amber-200/80">
+        <div id="feedback-box" class="hidden rounded-2xl p-3.5 mb-2.5 items-center justify-between">
           <div class="flex items-center gap-3">
             <span id="feedback-icon" class="text-2xl">✨</span>
             <div>
@@ -241,16 +230,18 @@
           <span>CHECK ANSWER</span>
         </button>
       </div>
+
     </div>
 
-    <div id="screen-completion" class="hidden flex-col items-center justify-center text-center space-y-6 py-8">
-      <div class="text-7xl animate-bounce">🪷</div>
-      <div class="space-y-2">
-        <h2 class="text-3xl font-black text-amber-950">Lesson Mastered!</h2>
-        <p class="text-sm text-stone-600 max-w-sm">You have aligned your mind with the spirit of pure Karma Yoga.</p>
+    <!-- SCREEN 3: COMPLETION SCREEN -->
+    <div id="screen-completion" class="hidden flex-col items-center justify-center text-center space-y-5 py-6">
+      <div class="text-6xl animate-bounce">🪷</div>
+      <div class="space-y-1.5">
+        <h2 class="text-2xl sm:text-3xl font-black text-amber-950">Sadhana Complete!</h2>
+        <p class="text-xs sm:text-sm text-stone-600 max-w-sm">You have practiced both the sound vibration (Shabda) and inner attitude (Bhāva) of Karma Yoga.</p>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 w-full max-w-xs">
+      <div class="grid grid-cols-2 gap-3 w-full max-w-xs">
         <div class="bg-white border-2 border-amber-200 p-3 rounded-2xl">
           <p class="text-[10px] font-bold uppercase text-stone-500">Prana Earned</p>
           <p class="text-2xl font-black text-amber-600">+30 XP</p>
@@ -261,46 +252,43 @@
         </div>
       </div>
 
-      <div class="bg-amber-100/80 border border-amber-200 rounded-2xl p-4 text-xs text-amber-950 italic max-w-md">
-        "Yogaḥ karmasu kauśhalam — Yoga is skill and poise in action." (BG 2.50)
+      <div id="completion-verse-quote" class="bg-amber-100/80 border border-amber-200 rounded-2xl p-3.5 text-xs text-amber-950 italic max-w-md">
+        <!-- Dynamic Quote -->
       </div>
 
       <button onclick="returnHome()" class="btn-3d w-full max-w-xs py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-black text-base">
         CONTINUE ROADMAP
       </button>
     </div>
+
   </main>
 
-  <footer class="text-center py-3 text-[11px] text-stone-500 border-t border-amber-200/50">
-    GitaLingo • Practical Karma Yoga • Universal Sound Engine
+  <footer class="text-center py-2.5 text-[11px] text-stone-500 border-t border-amber-200/50">
+    GitaLingo • Practical Karma Yoga • Authentic Meter Chanting & English Exegesis
   </footer>
 
+  <!-- SCRIPT ENGINE -->
   <script>
-    const STORAGE_KEY = 'gitalingo-state-v1';
-
     /* ==========================================================================
-       PRODUCTION WEB AUDIO ENGINE (Copilot Drop-in Replacement)
+       1. UNIVERSAL SOUND & CHANTING ENGINE
        ========================================================================== */
     class RobustSoundEngine {
       constructor() {
         this.ctx = null;
-        this.isUnlocked = false;
+        this.isChanting = false;
       }
 
-      // Ensures the audio context is unlocked by a direct user gesture
       unlock() {
         if (!this.ctx) {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          this.ctx = new AudioCtx();
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContextClass();
         }
-        if (this.ctx.state === 'suspended') {
+        if (this.ctx && this.ctx.state === 'suspended') {
           this.ctx.resume();
         }
-        this.isUnlocked = true;
       }
 
-      // Tanpura drone chord (Harmonic Sa - Pa - Sa)
-      playTanpuraChord(baseFreq = 220, duration = 1.6) {
+      playTanpuraChord(baseFreq = 216, duration = 2.0) {
         this.unlock();
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
@@ -314,7 +302,7 @@
           osc.frequency.setValueAtTime(freq, now);
 
           gain.gain.setValueAtTime(0.001, now);
-          gain.gain.linearRampToValueAtTime(0.28 / (idx + 1), now + 0.05);
+          gain.gain.linearRampToValueAtTime(0.25 / (idx + 1), now + 0.08);
           gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + idx * 0.15);
 
           osc.connect(gain);
@@ -325,7 +313,6 @@
         });
       }
 
-      // Resonant pluck on Sanskrit tile taps
       playCardPluck(freq = 440) {
         this.unlock();
         if (!this.ctx) return;
@@ -346,7 +333,6 @@
         osc.stop(now + 0.3);
       }
 
-      // Temple bells / Victory fanfare
       playCorrectChimes() {
         this.unlock();
         if (!this.ctx) return;
@@ -372,7 +358,6 @@
         });
       }
 
-      // Soft reflective tone for learning opportunities
       playReflectiveTone() {
         this.unlock();
         if (!this.ctx) return;
@@ -393,148 +378,254 @@
         osc.start(now);
         osc.stop(now + 0.42);
       }
+
+      chantVerse(padas, onComplete) {
+        this.unlock();
+        this.isChanting = true;
+        this.playTanpuraChord(216, 8.0);
+
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const padaMelodies = [220, 247, 261, 220];
+          let padaIdx = 0;
+
+          const chantNextPada = () => {
+            if (padaIdx >= padas.length) {
+              this.isChanting = false;
+              if (onComplete) onComplete();
+              return;
+            }
+
+            const currentPadaText = padas[padaIdx];
+            const currentPitchNote = padaMelodies[padaIdx % 4];
+
+            this.playCardPluck(currentPitchNote * 1.5);
+
+            const utter = new SpeechSynthesisUtterance(currentPadaText);
+            utter.rate = 0.78;
+            utter.pitch = 0.95;
+            utter.volume = 1.0;
+
+            const voices = window.speechSynthesis.getVoices();
+            const hindiOrIndianVoice = voices.find(v => v.lang.includes('hi') || v.lang.includes('sa') || v.lang.includes('IN'));
+            if (hindiOrIndianVoice) {
+              utter.voice = hindiOrIndianVoice;
+            }
+
+            utter.onend = () => {
+              padaIdx++;
+              setTimeout(chantNextPada, 450);
+            };
+
+            utter.onerror = () => {
+              padaIdx++;
+              setTimeout(chantNextPada, 300);
+            };
+
+            window.speechSynthesis.speak(utter);
+          };
+
+          chantNextPada();
+        } else {
+          padas.forEach((_, i) => {
+            setTimeout(() => {
+              this.playTanpuraChord(220 + i * 25, 1.2);
+            }, i * 1500);
+          });
+          setTimeout(() => {
+            this.isChanting = false;
+            if (onComplete) onComplete();
+          }, padas.length * 1500);
+        }
+      }
+
+      stopChant() {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+        this.isChanting = false;
+      }
     }
 
-    // Global instance
     const sound = new RobustSoundEngine();
 
-    // Force unlock on the very first screen interaction anywhere
-    ['click', 'touchstart', 'touchend', 'mousedown'].forEach(eventType => {
-      window.addEventListener(eventType, () => {
-        sound.unlock();
-      }, { once: true, passive: true });
+    ['click', 'touchstart', 'touchend', 'mousedown'].forEach(evt => {
+      window.addEventListener(evt, () => sound.unlock(), { once: true, passive: true });
     });
 
+    /* ==========================================================================
+       2. CURRICULUM WITH CHANTING PADAS & ENGLISH EXEGESIS
+       ========================================================================== */
     const lessonsData = [
       {
-        title: 'BG 2.47: Right to Action Alone',
+        badge: "Chapter 2, Verse 47",
+        title: "BG 2.47: Freedom from Outcome Anxiety",
+        sanskritVerse: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन ।<br>मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ॥",
+        padas: [
+          "karmaṇy-evādhikāras te",
+          "mā phaleṣu kadācana",
+          "mā karma-phala-hetur bhūḥ",
+          "mā te saṅgo ’stv akarmaṇi"
+        ],
+        englishTranslation: "You have a right only to perform your prescribed duty, but never to the fruits of action. Never let the fruits be your motive, nor let your attachment be to inaction.",
+        vedanticEssence: "Action belongs to the present moment and is your sole domain of stewardship. The outcome belongs to the cosmic law (Ishvara). Focusing on rewards creates anxiety; performing duty as an offering purifies the mind (chitta-shuddhi).",
         steps: [
           {
-            type: 'assemble',
-            prompt: 'Assemble the sacred line on duty without attachment to fruit:',
-            targetWords: ['karmaṇy-evādhikāras', 'te', 'mā', 'phaleṣu', 'kadācana'],
-            shuffledWords: ['phaleṣu', 'te', 'kadācana', 'karmaṇy-evādhikāras', 'mā'],
-            insight: 'Your stewardship is over the action, never over the fruit.'
+            type: "assemble",
+            prompt: "Assemble the first quarter-verse (pada):",
+            targetWords: ["karmaṇy-evādhikāras", "te", "mā", "phaleṣu", "kadācana"],
+            shuffledWords: ["phaleṣu", "te", "kadācana", "karmaṇy-evādhikāras", "mā"],
+            insight: "You have a right to action alone, never to its fruits."
           },
           {
-            type: 'match',
-            prompt: 'Match the Sanskrit roots to their Vedantic meanings:',
+            type: "match",
+            prompt: "Match the Sanskrit roots to their Vedantic meanings:",
             pairs: [
-              { sanskrit: 'karmaṇi', english: 'In prescribed duty' },
-              { sanskrit: 'adhikāraḥ', english: 'Stewardship / privilege' },
-              { sanskrit: 'phaleṣu', english: 'In the fruits/results' },
-              { sanskrit: 'akarmaṇi', english: 'In inaction' }
+              { sanskrit: "karmaṇi", english: "In prescribed duty" },
+              { sanskrit: "adhikāraḥ", english: "Stewardship / privilege" },
+              { sanskrit: "phaleṣu", english: "In the fruits/results" },
+              { sanskrit: "akarmaṇi", english: "In lazy inaction" }
             ],
-            insight: 'Adhikara means right of execution, not entitlement to praise.'
+            insight: "Adhikara means right of execution, not ownership over consequences."
           },
           {
-            type: 'scenario',
-            situation: 'Corporate Scenario: You spend 50 hours developing a critical technical blueprint. Your manager presents it to the leadership team without mentioning your name.',
-            prompt: 'How does a Karma Yogi respond internally?',
+            type: "scenario",
+            situation: "Corporate Scenario: You spend 50 hours developing an urgent architectural proposal. Your manager presents it to company leadership without acknowledging your contribution.",
+            prompt: "How does a Karma Yogi respond internally?",
             options: [
               {
-                text: 'Feel reduced and refuse to give thorough effort on the next project.',
+                text: "Feel reduced and refuse to give thorough effort on the next project.",
                 correct: false,
-                explain: 'The Atman is never diminished; only the ego contracts when denied applause.'
+                explain: "The true Self (Atman) cannot be reduced; only the ego contracts when seeking external applause."
               },
               {
-                text: 'Recognize the action was executed with total integrity (Ishvara Arpana); the credit belongs to the universe.',
+                text: "Recognize the action was executed with total integrity (Ishvara Arpana); release claim over credit.",
                 correct: true,
-                explain: 'Exact application of BG 2.47. Your responsibility was the excellence of the blueprint.'
+                explain: "Exact application of BG 2.47. Your stewardship ended with the excellent design. The credit belongs to the larger cosmic field."
               }
             ]
           }
         ]
       },
       {
-        title: 'BG 2.48: Equanimity Under Pressure',
+        badge: "Chapter 2, Verse 48",
+        title: "BG 2.48: Samatvam (Equanimity Under Pressure)",
+        sanskritVerse: "योगस्थः कुरु कर्माणि सङ्गं त्यक्त्वा धनञ्जय ।<br>सिद्ध्यसिद्ध्योः समो भूत्वा समत्वं योग उच्यते ॥",
+        padas: [
+          "yoga-sthaḥ kuru karmāṇi",
+          "saṅgaṁ tyaktvā dhanañjaya",
+          "siddhy-asiddhyoḥ samo bhūtvā",
+          "samatvaṁ yoga ucyate"
+        ],
+        englishTranslation: "Perform your duties established in Yoga, abandoning all clinging, O Arjuna. Remain poised in both success and failure; such evenness of mind is called Yoga.",
+        vedanticEssence: "Yoga is unbroken mental equilibrium (samatvam). When you remain undisturbed by success or failure, your intellect (buddhi) stays clear, sharp, and free from reactive turbulence during crises.",
         steps: [
           {
-            type: 'fill_blank',
-            prompt: 'Fill in the blank defining the true state of Yoga:',
-            sentenceLeading: 'siddhy-asiddhyoḥ samo bhūtvā',
-            blankMeaning: 'evenness of mind / poise',
-            sentenceTrailing: 'yoga ucyate ||',
-            options: ['samatvaṁ', 'krodhaṁ', 'saṅgaṁ'],
-            correctAnswer: 'samatvaṁ',
-            insight: "'Samatvaṁ yoga ucyate' — Evenness of mind in success and failure is called Yoga."
+            type: "fill_blank",
+            prompt: "Select the sacred Sanskrit word defining true Yoga:",
+            sentenceLeading: "siddhy-asiddhyoḥ samo bhūtvā",
+            blankMeaning: "evenness of mind / equanimity",
+            sentenceTrailing: "yoga ucyate ||",
+            options: ["samatvaṁ", "krodhaṁ", "saṅgaṁ"],
+            correctAnswer: "samatvaṁ",
+            insight: "'Samatvaṁ yoga ucyate' — Evenness of mind in victory and defeat is Yoga."
           },
           {
-            type: 'scenario',
-            situation: 'Corporate Scenario: During a high-stakes client deployment, an external vendor service fails, causing unexpected system downtime. Leadership is agitated on the incident call.',
+            type: "scenario",
+            situation: "Corporate Scenario: On release day, an external vendor fails and causes unexpected system downtime. Leadership is agitated on the incident call.",
             prompt: "What is 'Skill in Action' (Yogaḥ Karmasu Kauśalam) here?",
             options: [
               {
-                text: 'Maintain mental poise (samatvam), analyze the root cause objectively without panic or defensiveness.',
+                text: "Anchor in calm poise (samatvam), diagnosing the outage objectively without panic or defensive blame.",
                 correct: true,
-                explain: 'Equanimity keeps the intellect (buddhi) calm and sharp to resolve the crisis.'
+                explain: "Equanimity preserves vital prana and allows the intellect to focus on solving the breakdown."
               },
               {
-                text: 'Start pointing fingers in the chat log immediately to protect your image.',
+                text: "Start posting blame logs to defend your reputation before the root cause is known.",
                 correct: false,
-                explain: 'Ego-defense wastes vital energy (prāna) and obscures clarity.'
+                explain: "Defensiveness stems from anxiety over personal image rather than selfless service."
               }
             ]
           }
         ]
       },
       {
-        title: 'BG 3.21: Setting the Standard',
+        badge: "Chapter 3, Verse 21",
+        title: "BG 3.21: Leadership by Standard (Lokasaṅgraha)",
+        sanskritVerse: "यद्यदाचरति श्रेष्ठस्तत्तदेवेतरो जनः ।<br>स यत्प्रमाणं कुरुते लोकस्तदनुवर्तते ॥",
+        padas: [
+          "yad yad ācarati śreṣṭhaḥ",
+          "tat tad evetaro janaḥ",
+          "sa yat pramāṇaṁ kurute",
+          "lokas tad anuvartate"
+        ],
+        englishTranslation: "Whatever actions a great person performs, common people follow. Whatever standards they set by exemplary acts, the whole world pursues.",
+        vedanticEssence: "Selfless leaders don't demand excellence; they embody it. By upholding duty without supervision or expectation of reward, the Karma Yogi establishes the moral standard (dharma) that elevates others.",
         steps: [
           {
-            type: 'assemble',
-            prompt: 'Reconstruct the verse on setting the noble example:',
-            targetWords: ['yad', 'yad', 'ācarati', 'śreṣṭhas', 'tat', 'tad', 'evetaro', 'janaḥ'],
-            shuffledWords: ['janaḥ', 'ācarati', 'yad', 'śreṣṭhas', 'evetaro', 'tat', 'yad', 'tad'],
-            insight: 'Whatever actions a great person performs, common people follow.'
+            type: "assemble",
+            prompt: "Reconstruct the verse on setting the noble example:",
+            targetWords: ["yad", "yad", "ācarati", "śreṣṭhas", "tat", "tad", "evetaro", "janaḥ"],
+            shuffledWords: ["janaḥ", "ācarati", "yad", "śreṣṭhas", "evetaro", "tat", "yad", "tad"],
+            insight: "Whatever actions an elevated person performs, common people emulate."
           },
           {
-            type: 'scenario',
-            situation: 'Corporate Scenario: You are moving roles in two weeks due to an organizational pivot. Management has not assigned a successor or created a handover plan.',
-            prompt: 'How does the Karma Yogi approach the unassigned transition?',
+            type: "scenario",
+            situation: "Corporate Scenario: You are transitioning out of an interim role in two weeks. Management has not assigned a successor or provided a handover plan.",
+            prompt: "How does the Karma Yogi approach the unassigned transition?",
             options: [
               {
-                text: 'Do the bare minimum and let management deal with the aftermath since there is no plan.',
+                text: "Do the bare minimum and let management deal with the gap since there is no checklist.",
                 correct: false,
-                explain: 'A Karma Yogi sets the benchmark and never relies on external chaos to dictate integrity.'
+                explain: "A Karma Yogi sets the benchmark and never relies on external chaos to justify mediocrity."
               },
               {
-                text: 'Build a clear, living blueprint of all projects and files as service (seva) so whoever arrives finds an orderly room.',
+                text: "Build a clear, living blueprint of all projects and files as service (seva) so whoever arrives finds an orderly room.",
                 correct: true,
-                explain: 'BG 3.21: You set the standard. Leaving the seat orderly leaves you free of debt and guilt.'
+                explain: "In BG 3.21, the noble set the standard. Leaving the seat orderly frees you from all karmic debt and guilt."
               }
             ]
           }
         ]
       },
       {
-        title: 'BG 3.34 & 3.35: Svadharma vs. Likes & Dislikes',
+        badge: "Chapter 3, Verse 35",
+        title: "BG 3.34 & 3.35: Svadharma & Preferences",
+        sanskritVerse: "श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात् ।<br>स्वधर्मे निधनं श्रेयः परधर्मो भयावहः ॥",
+        padas: [
+          "śreyān sva-dharmo viguṇaḥ",
+          "para-dharmāt sv-anuṣṭhitāt",
+          "sva-dharme nidhanaṁ śreyaḥ",
+          "para-dharmo bhayāvahaḥ"
+        ],
+        englishTranslation: "It is far better to perform one's own natural duty (svadharma), even if imperfectly, than to perform another's duty well. Prescribed duties according to one's nature are safe; engaging in another's nature brings fear and instability.",
+        vedanticEssence: "Every individual is equipped with a distinct aptitude (svabhāva). Stating your preference honestly as an instrument (nimitta-mātram) is healthy stewardship; demanding an egoic outcome is attachment (rāga). Give 100% to the present duty while calmly aligning with your true strengths.",
         steps: [
           {
-            type: 'match',
-            prompt: 'Pair the core Vedantic psychology terms:',
+            type: "match",
+            prompt: "Pair the foundational Vedantic psychology terms:",
             pairs: [
-              { sanskrit: 'rāga-dveṣa', english: 'Attachment & aversion' },
-              { sanskrit: 'svadharma', english: 'Innate duty / aptitude' },
-              { sanskrit: 'nimitta-mātram', english: 'Instrument of the Divine' },
-              { sanskrit: 'prasāda buddhi', english: 'Receiving results as grace' }
+              { sanskrit: "rāga-dveṣa", english: "Likes & aversions" },
+              { sanskrit: "svadharma", english: "Innate duty / aptitude" },
+              { sanskrit: "nimitta-mātram", english: "Instrument of the Divine" },
+              { sanskrit: "prasāda buddhi", english: "Receiving results as grace" }
             ],
-            insight: 'Do not come under the sway of likes and dislikes; they are obstacles on the path.'
+            insight: "Do not come under the sway of likes and dislikes; they are obstacles on the path."
           },
           {
-            type: 'scenario',
-            situation: 'Corporate Scenario: You prefer high-leverage architectural projects where your skills shine, but duty assigns you to an operational project management role temporarily.',
-            prompt: 'Is expressing a preference contrary to Karma Yoga?',
+            type: "scenario",
+            situation: "Corporate Scenario: You prefer high-leverage architectural projects where your skills shine, but duty assigns you to an operational project management role temporarily.",
+            prompt: "Can a Karma Yogi express preferences at work?",
             options: [
               {
-                text: 'No: Communicating your aptitude as an instrument is healthy, while serving the immediate assignment with 100% excellence.',
+                text: "Yes: Communicating your aptitude as an instrument is healthy, while serving the immediate assignment with 100% excellence.",
                 correct: true,
-                explain: 'Svadharma is practical alignment. Demanding an outcome is ego; communicating your capacity while honoring immediate duty is Yoga.'
+                explain: "Svadharma is practical alignment. Stating your aptitude is clear communication; executing the present task honors chitta-shuddhi."
               },
               {
-                text: 'Yes: A Karma Yogi must remain silent, suppress their skills, and never communicate with management.',
+                text: "No: A spiritual person must remain silent, suppress their skills, and never communicate with management.",
                 correct: false,
-                explain: 'The Gita rejects false martyrdom and escapism. Arjuna was instructed to use his natural warrior faculty.'
+                explain: "The Gita rejects false martyrdom and escapism. Krishna urged Arjuna to use his natural warrior faculty."
               }
             ]
           }
@@ -542,131 +633,128 @@
       }
     ];
 
-    const state = {
-      hearts: 5,
-      pranaXP: 120,
-      streak: 3,
-      completedLessons: []
-    };
-
-    const appState = loadState();
-    Object.assign(state, appState);
-
+    /* ==========================================================================
+       3. APP STATE & ROUTING LOGIC
+       ========================================================================== */
     let currentLessonIdx = 0;
     let currentStepIdx = 0;
+    let hearts = 5;
+    let pranaXP = 120;
+
     let assembledWords = [];
     let selectedLeftMatch = null;
     let matchedPairsCount = 0;
     let selectedOptionIdx = null;
     let isStepChecked = false;
 
-    const elHome = document.getElementById('screen-home');
-    const elExercise = document.getElementById('screen-exercise');
-    const elCompletion = document.getElementById('screen-completion');
-    const elQuestionArea = document.getElementById('question-area');
-    const elMascotPrompt = document.getElementById('mascot-prompt');
-    const elFeedbackBox = document.getElementById('feedback-box');
-    const elFeedbackIcon = document.getElementById('feedback-icon');
-    const elFeedbackTitle = document.getElementById('feedback-title');
-    const elFeedbackDesc = document.getElementById('feedback-desc');
-    const elCheckBtn = document.getElementById('check-btn');
-    const elProgressContainer = document.getElementById('progress-container');
-    const elProgressBar = document.getElementById('lesson-progress-bar');
-    const elHearts = document.getElementById('hearts-counter');
-    const elXP = document.getElementById('xp-counter');
-    const elStreak = document.getElementById('streak-counter');
-    const elHomeCompletionLabel = document.getElementById('home-completion-label');
+    const elHome = document.getElementById("screen-home");
+    const elExercise = document.getElementById("screen-exercise");
+    const elCompletion = document.getElementById("screen-completion");
+    const elQuestionArea = document.getElementById("question-area");
+    const elMascotPrompt = document.getElementById("mascot-prompt");
+    const elFeedbackBox = document.getElementById("feedback-box");
+    const elFeedbackIcon = document.getElementById("feedback-icon");
+    const elFeedbackTitle = document.getElementById("feedback-title");
+    const elFeedbackDesc = document.getElementById("feedback-desc");
+    const elCheckBtn = document.getElementById("check-btn");
+    const elProgressContainer = document.getElementById("progress-container");
+    const elProgressBar = document.getElementById("lesson-progress-bar");
+    const elHearts = document.getElementById("hearts-counter");
+    const elXP = document.getElementById("xp-counter");
 
-    function loadState() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (!saved) return {};
-        return {
-          hearts: Number.isFinite(saved.hearts) ? saved.hearts : 5,
-          pranaXP: Number.isFinite(saved.pranaXP) ? saved.pranaXP : 120,
-          streak: Number.isFinite(saved.streak) ? saved.streak : 3,
-          completedLessons: Array.isArray(saved.completedLessons) ? saved.completedLessons : []
-        };
-      } catch {
-        return {};
+    document.getElementById("audio-test-btn").addEventListener("click", () => {
+      sound.playTanpuraChord(216, 2.0);
+    });
+
+    function initSanctuary() {
+      const sanctuaryEl = document.getElementById("sanctuary-drawer");
+      sanctuaryEl.innerHTML = lessonsData.map((l, i) => `
+        <div class="bg-white border border-amber-200 rounded-xl p-3.5 space-y-2 shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded">${l.badge}</span>
+            <button onclick="sound.chantVerse(lessonsData[${i}].padas)" class="btn-3d px-2.5 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold flex items-center gap-1">
+              🔊 <span>Chant</span>
+            </button>
+          </div>
+          <p class="font-sanskrit text-amber-950 text-sm leading-relaxed">${l.sanskritVerse}</p>
+          <p class="text-xs text-stone-700 font-semibold leading-relaxed">${l.englishTranslation}</p>
+          <p class="text-[11px] text-stone-500 italic border-t border-amber-100 pt-1.5">${l.vedanticEssence}</p>
+        </div>
+      `).join('');
+    }
+    initSanctuary();
+
+    window.toggleSanctuary = function() {
+      const drawer = document.getElementById("sanctuary-drawer");
+      const btn = document.getElementById("sanctuary-toggle-btn");
+      if (drawer.classList.contains("hidden")) {
+        drawer.classList.remove("hidden");
+        btn.innerText = "Hide Study Vault";
+      } else {
+        drawer.classList.add("hidden");
+        btn.innerText = "View All Verses & Audio";
       }
-    }
-
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        hearts: state.hearts,
-        pranaXP: state.pranaXP,
-        streak: state.streak,
-        completedLessons: state.completedLessons
-      }));
-    }
-
-    function updateTrackerUI() {
-      elHearts.textContent = state.hearts;
-      elXP.textContent = state.pranaXP;
-      elStreak.textContent = state.streak;
-      const completedCount = state.completedLessons.length;
-      elHomeCompletionLabel.textContent = `${completedCount}/${lessonsData.length} complete`;
-
-      document.querySelectorAll('.lesson-btn').forEach((btn) => {
-        const lessonIndex = Number(btn.dataset.lesson);
-        const done = state.completedLessons.includes(lessonIndex);
-        btn.classList.toggle('completed-glow', done);
-        btn.classList.toggle('bg-emerald-500', done);
-        btn.classList.toggle('hover:bg-emerald-600', done);
-        btn.classList.toggle('bg-amber-500', !done);
-        btn.classList.toggle('hover:bg-amber-600', !done);
-        if (done) {
-          btn.innerHTML = `
-            <span class="text-2xl">✓</span>
-            <span class="text-[10px] font-extrabold uppercase mt-0.5">DONE</span>
-          `;
-        } else {
-          const labels = [
-            '<span class="text-2xl">🏹</span><span class="text-[10px] font-extrabold uppercase mt-0.5">2.47</span>',
-            '<span class="text-2xl">⚖️</span><span class="text-[10px] font-extrabold uppercase mt-0.5">2.48</span>',
-            '<span class="text-2xl">🌟</span><span class="text-[10px] font-extrabold uppercase mt-0.5">3.21</span>',
-            '<span class="text-2xl">🎯</span><span class="text-[10px] font-extrabold uppercase mt-0.5">3.35</span>'
-          ];
-          btn.innerHTML = labels[lessonIndex];
-        }
-      });
-    }
-
-    document.getElementById('audio-test-btn').addEventListener('click', () => {
-      sound.playTanpuraChord(220, 2.0);
-    });
-
-    document.getElementById('download-btn').addEventListener('click', () => {
-      const html = '<!DOCTYPE html>' + document.documentElement.outerHTML;
-      const blob = new Blob([html], { type: 'text/html' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'index.html';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(link.href);
-    });
+    };
 
     function startLesson(idx) {
-      sound.playTanpuraChord(220);
+      sound.stopChant();
+      sound.playTanpuraChord(216);
       currentLessonIdx = idx;
       currentStepIdx = 0;
-      elHome.classList.add('hidden');
-      elCompletion.classList.add('hidden');
-      elExercise.classList.remove('hidden');
-      elProgressContainer.classList.remove('hidden');
+      elHome.classList.add("hidden");
+      elCompletion.classList.add("hidden");
+      elExercise.classList.remove("hidden");
+      elProgressContainer.classList.remove("hidden");
+      
+      const lesson = lessonsData[idx];
+      document.getElementById("lesson-shloka-badge").innerText = lesson.badge;
+      document.getElementById("lesson-shloka-sanskrit").innerHTML = lesson.sanskritVerse;
+      document.getElementById("lesson-shloka-english").innerText = lesson.englishTranslation;
+      document.getElementById("lesson-shloka-essence").innerText = "Vedantic Key: " + lesson.vedanticEssence;
+      resetChantButtonUI();
+
       renderCurrentStep();
     }
 
     function returnHome() {
-      sound.playTanpuraChord(220);
-      elCompletion.classList.add('hidden');
-      elExercise.classList.add('hidden');
-      elProgressContainer.classList.add('hidden');
-      elHome.classList.remove('hidden');
-      updateTrackerUI();
+      sound.stopChant();
+      sound.playTanpuraChord(216);
+      elCompletion.classList.add("hidden");
+      elExercise.classList.add("hidden");
+      elProgressContainer.classList.add("hidden");
+      elHome.classList.remove("hidden");
+    }
+
+    window.playCurrentShlokaChant = function() {
+      const chantBtn = document.getElementById("chant-play-btn");
+      const chantIcon = document.getElementById("chant-icon");
+      const chantLabel = document.getElementById("chant-label");
+
+      if (sound.isChanting) {
+        sound.stopChant();
+        resetChantButtonUI();
+        return;
+      }
+
+      chantBtn.classList.add("pulse-glow", "bg-amber-700");
+      chantIcon.innerText = "⏹️";
+      chantLabel.innerText = "Chanting in Sacred Meter...";
+
+      const currentPadas = lessonsData[currentLessonIdx].padas;
+      sound.chantVerse(currentPadas, () => {
+        resetChantButtonUI();
+      });
+    };
+
+    function resetChantButtonUI() {
+      const chantBtn = document.getElementById("chant-play-btn");
+      const chantIcon = document.getElementById("chant-icon");
+      const chantLabel = document.getElementById("chant-label");
+      if (chantBtn) {
+        chantBtn.classList.remove("pulse-glow", "bg-amber-700");
+        chantIcon.innerText = "🔊";
+        chantLabel.innerText = "Listen to Traditional Chant";
+      }
     }
 
     function updateProgress() {
@@ -678,32 +766,32 @@
     function renderCurrentStep() {
       updateProgress();
       isStepChecked = false;
-      elFeedbackBox.classList.add('hidden');
-      elFeedbackBox.className = 'hidden rounded-2xl p-4 mb-3 items-center justify-between';
-      elCheckBtn.className = 'btn-3d w-full py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-2';
-      elCheckBtn.innerHTML = '<span>CHECK ANSWER</span>';
+      elFeedbackBox.classList.add("hidden");
+      elFeedbackBox.className = "hidden rounded-2xl p-4 mb-3 items-center justify-between";
+      elCheckBtn.className = "btn-3d w-full py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-2";
+      elCheckBtn.innerHTML = "<span>CHECK ANSWER</span>";
       elCheckBtn.disabled = true;
 
       const step = lessonsData[currentLessonIdx].steps[currentStepIdx];
       elMascotPrompt.innerText = step.prompt;
 
-      if (step.type === 'assemble') renderAssembleStep(step);
-      else if (step.type === 'match') renderMatchStep(step);
-      else if (step.type === 'fill_blank') renderFillBlankStep(step);
-      else if (step.type === 'scenario') renderScenarioStep(step);
+      if (step.type === "assemble") renderAssembleStep(step);
+      else if (step.type === "match") renderMatchStep(step);
+      else if (step.type === "fill_blank") renderFillBlankStep(step);
+      else if (step.type === "scenario") renderScenarioStep(step);
     }
 
     function renderAssembleStep(step) {
       assembledWords = [];
       elQuestionArea.innerHTML = `
-        <div class="space-y-6">
-          <div id="drop-slot" class="min-h-[72px] p-3 rounded-2xl border-2 border-dashed border-amber-300 bg-white/80 flex flex-wrap gap-2 items-center">
+        <div class="space-y-4">
+          <div id="drop-slot" class="min-h-[64px] p-3 rounded-2xl border-2 border-dashed border-amber-300 bg-white/70 flex flex-wrap gap-2 items-center">
             <span id="slot-placeholder" class="text-xs text-stone-400 font-medium">Tap tiles below in rhythmic sequence...</span>
           </div>
 
-          <div id="word-bank" class="flex flex-wrap gap-2.5 justify-center py-2">
+          <div id="word-bank" class="flex flex-wrap gap-2 justify-center py-1">
             ${step.shuffledWords.map((word, i) => `
-              <button id="tile-${i}" onclick="selectAssembleTile('${word}', ${i})" class="btn-3d px-3.5 py-2.5 bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-950 font-sanskrit font-bold text-sm rounded-2xl transition-colors">
+              <button id="tile-${i}" onclick="selectAssembleTile('${word}',${i})" class="btn-3d px-3 py-2 bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-950 font-sanskrit text-sm sm:text-base rounded-xl font-bold">
                 ${word}
               </button>
             `).join('')}
@@ -715,14 +803,14 @@
     window.selectAssembleTile = function(word, idx) {
       sound.playCardPluck(440 + assembledWords.length * 50);
       assembledWords.push(word);
-      document.getElementById(`tile-${idx}`).classList.add('opacity-20', 'pointer-events-none');
+      document.getElementById(`tile-${idx}`).classList.add("opacity-20", "pointer-events-none");
 
-      const dropSlot = document.getElementById('drop-slot');
-      const placeholder = document.getElementById('slot-placeholder');
+      const dropSlot = document.getElementById("drop-slot");
+      const placeholder = document.getElementById("slot-placeholder");
       if (placeholder) placeholder.remove();
 
-      const newTile = document.createElement('button');
-      newTile.className = 'btn-3d tile-pop px-3 py-2 bg-amber-600 text-white rounded-xl text-sm font-sanskrit font-bold';
+      const newTile = document.createElement("button");
+      newTile.className = "btn-3d tile-pop px-3 py-1.5 bg-amber-600 text-white rounded-xl text-xs sm:text-sm font-sanskrit font-bold";
       newTile.innerHTML = `<span>${word}</span>`;
       newTile.onclick = () => renderAssembleStep(lessonsData[currentLessonIdx].steps[currentStepIdx]);
       dropSlot.appendChild(newTile);
@@ -737,17 +825,17 @@
       const englishList = [...step.pairs.map(p => p.english)].sort(() => Math.random() - 0.5);
 
       elQuestionArea.innerHTML = `
-        <div class="grid grid-cols-2 gap-3 sm:gap-4">
-          <div class="space-y-2.5">
+        <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
+          <div class="space-y-2">
             ${sanskritList.map((item, i) => `
-              <button id="sanskrit-${i}" onclick="selectLeftMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-sm hover:border-amber-400">
+              <button id="sanskrit-${i}" onclick="selectLeftMatch('${item}',${i})" class="btn-3d w-full p-2.5 rounded-xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-xs sm:text-sm">
                 ${item}
               </button>
             `).join('')}
           </div>
-          <div class="space-y-2.5">
+          <div class="space-y-2">
             ${englishList.map((item, i) => `
-              <button id="english-${i}" onclick="selectRightMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-stone-700 font-semibold text-center text-sm hover:border-amber-400">
+              <button id="english-${i}" onclick="selectRightMatch('${item}',${i})" class="btn-3d w-full p-2.5 rounded-xl bg-white border-2 border-amber-200 text-stone-700 font-semibold text-center text-xs leading-tight">
                 ${item}
               </button>
             `).join('')}
@@ -770,8 +858,8 @@
 
       if (matchPair && matchPair.english === englishWord) {
         sound.playCardPluck(660);
-        document.getElementById(`sanskrit-${selectedLeftMatch.idx}`).className = 'p-3 rounded-2xl bg-emerald-100 border-2 border-emerald-400 text-emerald-800 font-sanskrit font-bold text-center text-sm opacity-60 pointer-events-none';
-        document.getElementById(`english-${idx}`).className = 'p-3 rounded-2xl bg-emerald-100 border-2 border-emerald-400 text-emerald-800 font-bold text-center text-sm opacity-60 pointer-events-none';
+        document.getElementById(`sanskrit-${selectedLeftMatch.idx}`).className = "p-2.5 rounded-xl bg-emerald-100 border-2 border-emerald-400 text-emerald-800 font-sanskrit font-bold text-center text-xs sm:text-sm opacity-60 pointer-events-none";
+        document.getElementById(`english-${idx}`).className = "p-2.5 rounded-xl bg-emerald-100 border-2 border-emerald-400 text-emerald-800 font-bold text-center text-xs opacity-60 pointer-events-none";
         selectedLeftMatch = null;
         matchedPairsCount++;
         if (matchedPairsCount === step.pairs.length) elCheckBtn.disabled = false;
@@ -786,19 +874,19 @@
     function renderFillBlankStep(step) {
       selectedOptionIdx = null;
       elQuestionArea.innerHTML = `
-        <div class="space-y-6 text-center">
-          <div class="bg-white border-2 border-amber-200 rounded-3xl p-6 shadow-sm">
-            <p class="font-sanskrit text-lg text-amber-950 leading-relaxed">
+        <div class="space-y-4 text-center">
+          <div class="bg-white border-2 border-amber-200 rounded-2xl p-4 shadow-sm">
+            <p class="font-sanskrit text-base sm:text-lg text-amber-950 leading-relaxed">
               ${step.sentenceLeading}
               <span id="target-blank" class="inline-block border-b-2 border-amber-600 px-3 text-amber-600 font-bold">_______</span>
               ${step.sentenceTrailing}
             </p>
-            <p class="text-xs text-stone-500 mt-3 italic font-sans">Meaning: "${step.blankMeaning}"</p>
+            <p class="text-xs text-stone-500 mt-2 italic font-sans">Required Meaning: "${step.blankMeaning}"</p>
           </div>
 
-          <div class="flex flex-wrap gap-3 justify-center">
+          <div class="flex flex-wrap gap-2.5 justify-center">
             ${step.options.map((opt, i) => `
-              <button id="opt-${i}" onclick="selectBlankOption('${opt}', ${i})" class="btn-3d px-5 py-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-sm hover:border-amber-400">
+              <button id="opt-${i}" onclick="selectBlankOption('${opt}',${i})" class="btn-3d px-4 py-2.5 rounded-xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-sm sm:text-base hover:border-amber-400">
                 ${opt}
               </button>
             `).join('')}
@@ -812,22 +900,22 @@
       selectedOptionIdx = idx;
       document.querySelectorAll('[id^="opt-"]').forEach(btn => btn.classList.remove('border-amber-600', 'bg-amber-100'));
       document.getElementById(`opt-${idx}`).classList.add('border-amber-600', 'bg-amber-100');
-      document.getElementById('target-blank').innerText = word;
+      document.getElementById("target-blank").innerText = word;
       elCheckBtn.disabled = false;
     };
 
     function renderScenarioStep(step) {
       selectedOptionIdx = null;
       elQuestionArea.innerHTML = `
-        <div class="space-y-4">
-          <div class="bg-white border-2 border-amber-200 rounded-2xl p-4 shadow-sm text-xs sm:text-sm text-stone-700 leading-relaxed">
-            <span class="font-black text-amber-950 block mb-1">💼 Corporate Field (Kurukshetra)</span>
+        <div class="space-y-3">
+          <div class="bg-white border-2 border-amber-200 rounded-xl p-3.5 shadow-sm text-xs sm:text-sm text-stone-700 leading-relaxed">
+            <span class="font-black text-amber-950 block mb-1">💼 Corporate Kurukshetra Friction:</span>
             ${step.situation}
           </div>
 
-          <div class="space-y-2.5">
+          <div class="space-y-2">
             ${step.options.map((opt, i) => `
-              <button id="scenario-opt-${i}" onclick="selectScenarioOption(${i})" class="btn-3d w-full p-3.5 rounded-2xl bg-white border-2 border-amber-200 hover:border-amber-400 text-stone-800 text-left text-sm font-semibold flex items-center gap-3">
+              <button id="scenario-opt-${i}" onclick="selectScenarioOption(${i})" class="btn-3d w-full p-3 rounded-xl bg-white border-2 border-amber-200 hover:border-amber-400 text-stone-800 text-left text-xs sm:text-sm font-semibold flex items-start gap-2.5">
                 <span class="w-5 h-5 rounded-full border border-amber-400 flex items-center justify-center text-[10px] shrink-0 font-bold">${String.fromCharCode(65 + i)}</span>
                 <span>${opt.text}</span>
               </button>
@@ -850,89 +938,78 @@
 
       if (isStepChecked) {
         currentStepIdx++;
-        if (currentStepIdx >= lessonsData[currentLessonIdx].steps.length) {
-          finishLesson();
-        } else {
-          renderCurrentStep();
-        }
+        if (currentStepIdx >= lessonsData[currentLessonIdx].steps.length) finishLesson();
+        else renderCurrentStep();
         return;
       }
 
       let isCorrect = false;
-      let feedbackTitle = '';
-      let feedbackMsg = '';
+      let feedbackTitle = "";
+      let feedbackMsg = "";
 
-      if (step.type === 'assemble') {
-        isCorrect = assembledWords.join(' ') === step.targetWords.join(' ');
-        feedbackTitle = isCorrect ? 'Sacred Cadence Aligned!' : 'Check Verse Sequence';
+      if (step.type === "assemble") {
+        isCorrect = assembledWords.join(" ") === step.targetWords.join(" ");
+        feedbackTitle = isCorrect ? "Sacred Cadence Aligned!" : "Check Verse Sequence";
         feedbackMsg = step.insight;
-      } else if (step.type === 'match') {
+      } else if (step.type === "match") {
         isCorrect = true;
-        feedbackTitle = 'Artha Realized!';
+        feedbackTitle = "Artha Realized!";
         feedbackMsg = step.insight;
-      } else if (step.type === 'fill_blank') {
+      } else if (step.type === "fill_blank") {
         isCorrect = step.options[selectedOptionIdx] === step.correctAnswer;
-        feedbackTitle = isCorrect ? 'Tat Sat! Correct' : 'Keep Reflecting';
+        feedbackTitle = isCorrect ? "Tat Sat! Correct" : "Keep Reflecting";
         feedbackMsg = step.insight;
-      } else if (step.type === 'scenario') {
+      } else if (step.type === "scenario") {
         const chosen = step.options[selectedOptionIdx];
         isCorrect = chosen.correct;
-        feedbackTitle = isCorrect ? 'Pure Karma Yoga' : 'Ego Reaction Detected';
+        feedbackTitle = isCorrect ? "Pure Karma Yoga" : "Ego Reaction Detected";
         feedbackMsg = chosen.explain;
       }
 
       isStepChecked = true;
-      elFeedbackBox.classList.remove('hidden');
-      elFeedbackBox.classList.add('flex');
+      elFeedbackBox.classList.remove("hidden");
+      elFeedbackBox.classList.add("flex");
 
       if (isCorrect) {
         sound.playCorrectChimes();
-        elFeedbackBox.classList.add('bg-emerald-100', 'border', 'border-emerald-300', 'text-emerald-950');
-        elFeedbackIcon.innerText = '🪷';
+        elFeedbackBox.classList.add("bg-emerald-100", "border", "border-emerald-300", "text-emerald-950");
+        elFeedbackIcon.innerText = "🪷";
         elFeedbackTitle.innerText = feedbackTitle;
         elFeedbackDesc.innerText = feedbackMsg;
 
-        elCheckBtn.className = 'btn-3d w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-2';
-        elCheckBtn.innerHTML = '<span>CONTINUE</span>';
+        elCheckBtn.className = "btn-3d w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base tracking-wide";
+        elCheckBtn.innerHTML = "<span>CONTINUE</span>";
       } else {
         sound.playReflectiveTone();
-        state.hearts = Math.max(0, state.hearts - 1);
-        elHearts.textContent = state.hearts;
-        saveState();
+        hearts = Math.max(0, hearts - 1);
+        elHearts.innerText = hearts;
 
-        elFeedbackBox.classList.add('bg-rose-100', 'border', 'border-rose-300', 'text-rose-950');
-        elFeedbackIcon.innerText = '🕊️';
+        elFeedbackBox.classList.add("bg-rose-100", "border", "border-rose-300", "text-rose-950");
+        elFeedbackIcon.innerText = "🕊️";
         elFeedbackTitle.innerText = feedbackTitle;
         elFeedbackDesc.innerText = feedbackMsg;
 
-        elCheckBtn.className = 'btn-3d w-full py-3.5 rounded-2xl bg-stone-700 hover:bg-stone-800 text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-2';
-        elCheckBtn.innerHTML = '<span>GOT IT, CONTINUE</span>';
+        elCheckBtn.className = "btn-3d w-full py-3.5 rounded-2xl bg-stone-700 hover:bg-stone-800 text-white font-extrabold text-base tracking-wide";
+        elCheckBtn.innerHTML = "<span>GOT IT, CONTINUE</span>";
       }
     }
 
     function finishLesson() {
+      sound.stopChant();
       sound.playCorrectChimes();
-      state.pranaXP += 30;
-      state.streak += 1;
-      if (!state.completedLessons.includes(currentLessonIdx)) {
-        state.completedLessons.push(currentLessonIdx);
-      }
-      saveState();
-      updateTrackerUI();
-      elXP.textContent = state.pranaXP;
-      elStreak.textContent = state.streak;
-      elProgressBar.style.width = '100%';
+      pranaXP += 30;
+      elXP.innerText = pranaXP;
+      elProgressBar.style.width = "100%";
 
-      elExercise.classList.add('hidden');
-      elProgressContainer.classList.add('hidden');
-      elCompletion.classList.remove('hidden');
-      elCompletion.classList.add('flex');
+      elExercise.classList.add("hidden");
+      elProgressContainer.classList.add("hidden");
+      elCompletion.classList.remove("hidden");
+      elCompletion.classList.add("flex");
 
-      const equanimityPct = Math.round((state.hearts / 5) * 100);
-      document.getElementById('final-equanimity').innerText = `${equanimityPct}%`;
+      const equanimityPct = Math.round((hearts / 5) * 100);
+      document.getElementById("final-equanimity").innerText = `${equanimityPct}%`;
+      document.getElementById("completion-verse-quote").innerText = `"${lessonsData[currentLessonIdx].englishTranslation}" (${lessonsData[currentLessonIdx].badge})`;
     }
-
-    updateTrackerUI();
   </script>
 </body>
 </html>
