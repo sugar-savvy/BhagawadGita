@@ -132,7 +132,7 @@
           🔔 <span class="hidden sm:inline">Sound</span>
         </button>
 
-        <button id="download-btn" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] sm:text-xs font-bold flex items-center gap-1 shadow-sm" title="Download page">
+        <button id="download-btn" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] sm:text-xs font-bold flex items-center gap-1 shadow-sm" title="Download">
           💾 <span class="hidden sm:inline">Save</span>
         </button>
       </div>
@@ -151,7 +151,7 @@
       <div class="lesson-card rounded-[28px] p-4 sm:p-5 flex items-center gap-4">
         <div class="text-5xl shadow-sm">🪷</div>
         <div>
-          <p class="text-[10px] uppercase font-black tracking-[0.18em] text-amber-700">Today’s Discipline</p>
+          <p class="text-[10px] uppercase font-black tracking-[0.18em] text-amber-700">Today's Discipline</p>
           <h2 class="text-xl sm:text-2xl font-black text-amber-950 mt-1">Unit 1: The Corporate Kurukshetra</h2>
           <p class="text-xs sm:text-sm text-stone-600 mt-1">Conquer outcome anxiety, navigate handovers, and act without bondage.</p>
         </div>
@@ -179,7 +179,7 @@
           <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
 
           <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(1)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center lesson-btn" data-lesson="1">
+            <button onclick="startLesson(1)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative lesson-btn" data-lesson="1">
               <span class="text-2xl">⚖️</span>
               <span class="text-[10px] font-extrabold uppercase mt-0.5">2.48</span>
             </button>
@@ -189,7 +189,7 @@
           <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
 
           <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(2)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center lesson-btn" data-lesson="2">
+            <button onclick="startLesson(2)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative lesson-btn" data-lesson="2">
               <span class="text-2xl">🌟</span>
               <span class="text-[10px] font-extrabold uppercase mt-0.5">3.21</span>
             </button>
@@ -199,7 +199,7 @@
           <div class="w-1.5 h-6 bg-amber-300 rounded-full"></div>
 
           <div class="lesson-node flex flex-col items-center">
-            <button onclick="startLesson(3)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center lesson-btn" data-lesson="3">
+            <button onclick="startLesson(3)" class="btn-3d w-20 h-20 rounded-full bg-amber-500 hover:bg-amber-600 border-4 border-amber-300 text-white flex flex-col items-center justify-center relative lesson-btn" data-lesson="3">
               <span class="text-2xl">🎯</span>
               <span class="text-[10px] font-extrabold uppercase mt-0.5">3.35</span>
             </button>
@@ -211,7 +211,7 @@
       <div class="bg-amber-100/80 border border-amber-200 rounded-2xl p-4 text-xs space-y-1.5 text-stone-700">
         <p class="font-bold text-amber-950">💡 Classical Vedantic Pedagogy:</p>
         <p class="leading-relaxed">
-          Rooted in <strong>Shravana</strong> (sacred sound), <strong>Pada-Cheda</strong> (word disassembly), and <strong>Manana</strong> (workplace application) from the traditional Shankara Bhashya lineage.
+          Rooted in <strong>Shravana</strong> (sacred sound), <strong>Pada-Cheda</strong> (word disassembly), and <strong>Manana</strong> (workplace application) from the traditional Shankara Bhashya.
         </p>
       </div>
     </div>
@@ -281,15 +281,24 @@
     class RobustSoundEngine {
       constructor() {
         this.ctx = null;
+        this.audioUnlocked = false;
       }
 
       unlock() {
+        if (this.audioUnlocked) return;
+        
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (!this.ctx) {
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
           this.ctx = new AudioContextClass();
         }
+        
         if (this.ctx && this.ctx.state === 'suspended') {
-          this.ctx.resume();
+          this.ctx.resume().then(() => {
+            this.audioUnlocked = true;
+            console.log('🎵 Audio context unlocked');
+          }).catch(err => console.log('Audio unlock error:', err));
+        } else {
+          this.audioUnlocked = true;
         }
       }
 
@@ -615,8 +624,17 @@
       URL.revokeObjectURL(link.href);
     });
 
+    // Unlock audio on first user interaction (required by browsers)
     window.addEventListener('touchstart', () => sound.unlock(), { once: true });
     window.addEventListener('mousedown', () => sound.unlock(), { once: true });
+
+    // Play welcome sound after a small delay to allow audio context to be ready
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        sound.unlock();
+        sound.playTanpuraChord(220, 1.2);
+      }, 300);
+    });
 
     function startLesson(idx) {
       sound.playTanpuraChord(220);
@@ -672,7 +690,7 @@
 
           <div id="word-bank" class="flex flex-wrap gap-2.5 justify-center py-2">
             ${step.shuffledWords.map((word, i) => `
-              <button id="tile-${i}" onclick="selectAssembleTile('${word}', ${i})" class="btn-3d px-3.5 py-2.5 bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-950 font-sanskrit text-base rounded-xl font-bold">
+              <button id="tile-${i}" onclick="selectAssembleTile('${word}', ${i})" class="btn-3d px-3.5 py-2.5 bg-white border-2 border-amber-200 hover:border-amber-400 text-amber-950 font-sanskrit font-bold text-sm text-center">
                 ${word}
               </button>
             `).join('')}
@@ -709,14 +727,14 @@
         <div class="grid grid-cols-2 gap-3 sm:gap-4">
           <div class="space-y-2.5">
             ${sanskritList.map((item, i) => `
-              <button id="sanskrit-${i}" onclick="selectLeftMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-sm">
+              <button id="sanskrit-${i}" onclick="selectLeftMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-sm hover:border-amber-400 transition-all">
                 ${item}
               </button>
             `).join('')}
           </div>
           <div class="space-y-2.5">
             ${englishList.map((item, i) => `
-              <button id="english-${i}" onclick="selectRightMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-stone-700 font-semibold text-center text-xs leading-tight">
+              <button id="english-${i}" onclick="selectRightMatch('${item}', ${i})" class="btn-3d w-full p-3 rounded-2xl bg-white border-2 border-amber-200 text-stone-700 font-semibold text-center text-sm hover:border-amber-400 transition-all">
                 ${item}
               </button>
             `).join('')}
@@ -740,7 +758,7 @@
       if (matchPair && matchPair.english === englishWord) {
         sound.playCardPluck(660);
         document.getElementById(`sanskrit-${selectedLeftMatch.idx}`).className = 'p-3 rounded-2xl bg-emerald-100 border-2 border-emerald-400 text-emerald-800 font-sanskrit font-bold text-center text-sm opacity-60 pointer-events-none';
-        document.getElementById(`english-${idx}`).className = 'p-3 rounded-2xl bg-emerald-100 border-2 border-emerald-400 text-emerald-800 font-bold text-center text-xs opacity-60 pointer-events-none';
+        document.getElementById(`english-${idx}`).className = 'p-3 rounded-2xl bg-emerald-100 border-2 border-emerald-400 text-emerald-800 font-bold text-center text-sm opacity-60 pointer-events-none';
         selectedLeftMatch = null;
         matchedPairsCount++;
         if (matchedPairsCount === step.pairs.length) elCheckBtn.disabled = false;
@@ -767,7 +785,7 @@
 
           <div class="flex flex-wrap gap-3 justify-center">
             ${step.options.map((opt, i) => `
-              <button id="opt-${i}" onclick="selectBlankOption('${opt}', ${i})" class="btn-3d px-5 py-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-base hover:border-amber-400">
+              <button id="opt-${i}" onclick="selectBlankOption('${opt}', ${i})" class="btn-3d px-5 py-3 rounded-2xl bg-white border-2 border-amber-200 text-amber-950 font-sanskrit font-bold text-center text-sm hover:border-amber-400 transition-all">
                 ${opt}
               </button>
             `).join('')}
@@ -796,7 +814,7 @@
 
           <div class="space-y-2.5">
             ${step.options.map((opt, i) => `
-              <button id="scenario-opt-${i}" onclick="selectScenarioOption(${i})" class="btn-3d w-full p-3.5 rounded-2xl bg-white border-2 border-amber-200 hover:border-amber-400 text-stone-800 text-left text-xs sm:text-sm font-semibold flex items-start gap-2.5">
+              <button id="scenario-opt-${i}" onclick="selectScenarioOption(${i})" class="btn-3d w-full p-3.5 rounded-2xl bg-white border-2 border-amber-200 hover:border-amber-400 text-stone-800 text-sm font-medium flex items-center gap-3 transition-all text-left">
                 <span class="w-5 h-5 rounded-full border border-amber-400 flex items-center justify-center text-[10px] shrink-0 font-bold">${String.fromCharCode(65 + i)}</span>
                 <span>${opt.text}</span>
               </button>
@@ -861,7 +879,7 @@
         elFeedbackTitle.innerText = feedbackTitle;
         elFeedbackDesc.innerText = feedbackMsg;
 
-        elCheckBtn.className = 'btn-3d w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base tracking-wide';
+        elCheckBtn.className = 'btn-3d w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-2';
         elCheckBtn.innerHTML = '<span>CONTINUE</span>';
       } else {
         sound.playReflectiveTone();
@@ -874,7 +892,7 @@
         elFeedbackTitle.innerText = feedbackTitle;
         elFeedbackDesc.innerText = feedbackMsg;
 
-        elCheckBtn.className = 'btn-3d w-full py-3.5 rounded-2xl bg-stone-700 hover:bg-stone-800 text-white font-extrabold text-base tracking-wide';
+        elCheckBtn.className = 'btn-3d w-full py-3.5 rounded-2xl bg-stone-700 hover:bg-stone-800 text-white font-extrabold text-base tracking-wide flex items-center justify-center gap-2';
         elCheckBtn.innerHTML = '<span>GOT IT, CONTINUE</span>';
       }
     }
